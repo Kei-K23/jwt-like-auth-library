@@ -30,7 +30,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "token.js",
+  "name": "kei/token_auth",
   "author": "Kei-K23",
   "module": "dist/.esm.js",
   "size-limit": [
