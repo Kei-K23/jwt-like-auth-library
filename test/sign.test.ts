@@ -1,4 +1,4 @@
-import { sign } from '../src/sign';
+import { sign } from '../src';
 
 describe('sign', () => {
   it('should produce different signatures for different payloads', () => {

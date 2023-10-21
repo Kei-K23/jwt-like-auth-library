@@ -11,7 +11,7 @@ export interface SignProp {
 }
 
 export interface CreateSignatureProp {
-  secret: string;
+  signature: string;
   encodedHeader: string;
   encodedPayload: string;
 }
@@ -24,13 +24,13 @@ function base64Encoded(obj: object): string {
   return Buffer.from(JSON.stringify(obj)).toString('base64');
 }
 
-function createSignature({
-  secret,
+export function createSignature({
+  signature,
   encodedHeader,
   encodedPayload,
 }: CreateSignatureProp) {
   return crypto
-    .createHmac('sha256', secret)
+    .createHmac('sha256', signature)
     .update(encodedHeader + '.' + encodedPayload)
     .digest('base64');
 }
@@ -46,11 +46,11 @@ export function sign({ payload, secret, options = {} }: SignProp) {
   const expireIn = date + mergeOptions.expireIn;
   // token payload
   const encoded_payload = base64Encoded({ ...payload, exp: expireIn });
-  const signature = createSignature({
-    secret,
+  const signature_ = createSignature({
     encodedHeader: encoded_header,
     encodedPayload: encoded_payload,
+    signature: secret,
   });
 
-  return `${encoded_header}.${encoded_payload}.${signature}`;
+  return `${encoded_header}.${encoded_payload}.${signature_}`;
 }
